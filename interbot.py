@@ -6,31 +6,42 @@ def main(page1):
         text=page.text
         textnew=[]
         while True:
+                indexes=[]
                 try:
-                        index1=text.index(u"{{не переведено 5")
-                        try:
-                                index2=text.index(u"{{нп5")
-                                index=min(index1,index2)
-                        except:
-                                index=index1
+                        indexes.append(text.index(u"{{не переведено 5"))
                 except:
+                        pass
+                finally:
                         try:
-                                index2=text.index(u"{{нп5")
-                                index=index2
+                                indexes.append(text.index(u"{{нп5"))
                         except:
-                                break
+                                pass
+                        finally:
+                                try:
+                                        indexes.append(text.index(u"{{НП5"))
+                                except:
+                                        pass
+                                finally:
+                                        try:
+                                                indexes.append(text.index(u"{{iw"))
+                                        except:
+                                                pass
+                if indexes!=[]:
+                        index=min(indexes)
+                else:
+                        break
                 textnew.append([0, text[:index]])
                 text=text[index:]
                 index=text.index("}}")
-                template=[u"не переведено 5"]
+                template=[]
                 vertical=-1
                 for i in range(index):
                         if text[i]=="|":
                                 if vertical==-1:
-                                        vertical=i
+                                        template.append(text[2:i])
                                 else:
                                         template.append(text[vertical+1:i])
-                                        vertical=i
+                                vertical=i
                 template.append(text[vertical+1:index])
                 try:
                         text=text[index+2:]
