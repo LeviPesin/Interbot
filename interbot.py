@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
-import pywikibot, requests
-def main(name):
-        site=pywikibot.Site()
-        page=pywikibot.Page(site, name)
+import pywikibot, pywikibot.pagegenerators, requests
+def main(page1):
+        page=page1
         text=page.text
         textnew=[]
         while True:
@@ -47,7 +46,7 @@ def main(name):
                         else:
                                 prefix=i[3]
                         if i[4]=="":
-                                intername=name
+                                intername=i[1]
                         else:
                                 intername=i[4]
                         intername=intername.split()
@@ -77,13 +76,14 @@ def main(name):
                         text+=i[1]
                 else:
                         text+="{{"+i[0]+"|"+i[1]+"|"+i[2]+"|"+i[3]+"|"+i[4]+"}}"
-        page.text=text
-        page.save(u"Проверено, не переведены ли ссылки.")
+        if text!=page.text:
+                page.text=text
+                page.save(u"Проверено, не переведены ли ссылки.")
 if __name__=="__main__":
         main(u"Участник:Well very well/Черновик")
-        #articles=pywikibot.pagegenerators.CategorizedPageGenerator(pywikibot.Category(pywikibot.Site(), u'Категория:Статьи')), recurse=True)
-        #while True:
-        #    try:
-        #        main(next(articles))
-        #    except:
-        #        break
+        articles=pywikibot.pagegenerators.CategorizedPageGenerator(pywikibot.Category(pywikibot.Site(), u'Категория:Статьи'), recurse=True)
+        while True:
+            try:
+                main(next(articles))
+            except:
+                break
