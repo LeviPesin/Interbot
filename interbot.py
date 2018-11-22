@@ -80,7 +80,6 @@ def main(page1):
                 page.text=text
                 page.save(u"Проверено, не переведены ли ссылки.")
 if __name__=="__main__":
-        main(u"Участник:Well very well/Черновик")
         articles=pywikibot.pagegenerators.CategorizedPageGenerator(pywikibot.Category(pywikibot.Site(), u'Категория:Статьи'), recurse=True)
         while True:
             try:
