@@ -85,7 +85,10 @@ def main(page1):
                                         except:
                                                 pass
                                 else:
-                                        textnew[q]=[0, ""]
+                                        if i[2]!="":
+                                                textnew[q]=[0, "[["+i[1]+"]]"]
+                                        else:
+                                                textnew[q]=[0, "[["+i[2]+"|"+i[1]+"]]"]
                         except:
                                 pass
         text=""
