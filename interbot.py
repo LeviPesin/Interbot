@@ -64,21 +64,28 @@ def main(page1):
                         intername="_".join(intername)
                         request="https://"+prefix+".wikipedia.org/w/api.php?action=query&titles="+intername+"&prop=langlinks&lllimit=500&format=json"
                         try:
-                                #json with interwikis
-                                jwi=requests.get(request).json()
-                                interwiki=""
-                                for z in jwi['query']['pages'].keys():
-                                        for j in jwi['query']['pages'][z]['langlinks']:
-                                                if j['lang']=='ru':
-                                                        interwiki=j['*']
-                                try:
-                                        inter=interwiki
-                                        if inter!="" and i[2]=="":
-                                                textnew[q]=[0,"[["+inter+"|"+i[1]+"]]"]
-                                        elif inter!="":
-                                                textnew[q]=[0, "[["+inter+"|"+i[2]+"]]"]
-                                except:
-                                        pass
+                                request2=requests.get("https://"+prefix+".wikipedia.org/wiki/"+intername)
+                                if request2.status_code!=404:
+                                        try:
+                                                #json with interwikis
+                                                jwi=requests.get(request).json()
+                                                interwiki=""
+                                                for z in jwi['query']['pages'].keys():
+                                                        for j in jwi['query']['pages'][z]['langlinks']:
+                                                                if j['lang']=='ru':
+                                                                        interwiki=j['*']
+                                                try:
+                                                        inter=interwiki
+                                                        if inter!="" and i[2]=="":
+                                                                textnew[q]=[0,"[["+inter+"|"+i[1]+"]]"]
+                                                        elif inter!="":
+                                                                textnew[q]=[0, "[["+inter+"|"+i[2]+"]]"]
+                                                except:
+                                                        pass
+                                        except:
+                                                pass
+                                else:
+                                        textnew[q]=[0, ""]
                         except:
                                 pass
         text=""
