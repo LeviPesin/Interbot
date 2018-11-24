@@ -1,31 +1,28 @@
 #!/usr/bin/env python
 # coding: utf-8
 import pywikibot, pywikibot.pagegenerators, requests
+def ind(temples):
+        global indexes
+        lowertext=text.lower()
+        if len(temples)>1:
+                try:
+                        indexes.append(lowertext.index(temples[0]))
+                except:
+                        pass
+                finally:
+                        ind(temples[1:])
+        else:
+                try:
+                        indexes.append(lowertext.index(temples[0]))
+                except:
+                        pass
 def main(page1):
         page=page1
         text=page.text
         textnew=[]
         while True:
                 indexes=[]
-                try:
-                        indexes.append(text.index(u"{{не переведено 5"))
-                except:
-                        pass
-                finally:
-                        try:
-                                indexes.append(text.index(u"{{нп5"))
-                        except:
-                                pass
-                        finally:
-                                try:
-                                        indexes.append(text.index(u"{{НП5"))
-                                except:
-                                        pass
-                                finally:
-                                        try:
-                                                indexes.append(text.index(u"{{iw"))
-                                        except:
-                                                pass
+                ind(u"{{не переведено 5", u"{{нп5", u"{{iw", u"{{нп4", u"{{ut4", u"{{не переведено 4")
                 if indexes!=[]:
                         index=min(indexes)
                 else:
